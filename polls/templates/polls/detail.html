@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
-    <body>
-        <a href="{% url 'polls:index' %}">Home</a><br>
+{% extends 'polls/base.html' %}
+{% load static %}
+{% block title %}Polls - {{ question.question_text }}{% endblock %}
+{% block content %}
         <form action="{% url 'polls:vote' question.id %}" method="post">
         {% csrf_token %}
         <fieldset>
@@ -16,8 +12,7 @@
                 <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
             {% endfor %}
         </fieldset>
-        <input type="submit" value="Vote">
+        <input type="submit" value="Votar">
         </form>
         </ul>
-    </body>
-</html>
+{% endblock %}

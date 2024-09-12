@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'polls/images/favicon.png' %}">
+    <title>{% block title %}Polls{% endblock %}</title>
+</head>
+<body>
+    <div class="main-container">
+        <header class="header">
+            <nav>
+                <a href="{% url 'polls:index' %}">Inicio</a>
+            </nav>
+        </header>
+
+        <main class="content">
+            <img src="{% static 'polls/images/logo.png' %}">
+            {% block content %}
+            <!-- Content goes here -->
+            {% endblock %}
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 My Web Project. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
