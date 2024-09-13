@@ -6,6 +6,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'polls/style.css' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'polls/images/favicon.png' %}">
+    {% block head %}{% endblock %}
     <title>{% block title %}Polls{% endblock %}</title>
 </head>
 <body>
@@ -13,6 +14,7 @@
         <header class="header">
             <nav>
                 <a href="{% url 'polls:index' %}">Inicio</a>
+                <a href="{% url 'polls:create' %}">Criar enquete</a>
             </nav>
         </header>
 

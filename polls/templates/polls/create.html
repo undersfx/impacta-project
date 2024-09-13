@@ -1,0 +1,59 @@
+{% extends 'polls/base.html' %}
+{% load static %}
+{% block head %}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+          .choice {
+              margin-bottom: 10px;
+          }
+          .hidden {
+              display: none;
+          }
+    </style>
+{% endblock %}
+{% block title %}Polls - {{ question.question_text }}{% endblock %}
+{% block content %}
+<!--        <form action="{% url 'polls:create' %}" method="post">-->
+<!--        {% csrf_token %}-->
+<!--        {{ form.as_p }}-->
+<!--        <input type="submit" value="Criar">-->
+<!--        </form>-->
+      <form id="dynamicForm" action="{% url 'polls:create' %}" method="post">
+      {% csrf_token %}
+          <label for="questionText">Título da Enquete:</label>
+          <input type="text" id="questionText" name="questionText" required><br><br>
+
+          <div id="choicesContainer">
+              <div class="choice">
+                  <label for="choice1">Opção 1:</label>
+                  <input type="text" id="choice1" name="choices[]" required>
+              </div>
+          </div>
+
+          <button type="button" id="addChoiceButton">+ Adicionar Opção</button><br><br>
+          <input type="submit" value="Submit">
+      </form>
+
+      <script>
+          const maxChoices = 5;
+          let choiceCount = 1;
+
+          document.getElementById('addChoiceButton').addEventListener('click', function() {
+              if (choiceCount < maxChoices) {
+                  choiceCount++;
+                  const container = document.getElementById('choicesContainer');
+
+                  const newChoiceDiv = document.createElement('div');
+                  newChoiceDiv.classList.add('choice');
+                  newChoiceDiv.innerHTML = `
+                      <label for="choice${choiceCount}">Opção ${choiceCount}:</label>
+                      <input type="text" id="choice${choiceCount}" name="choices[]" required>
+                  `;
+
+                  container.appendChild(newChoiceDiv);
+              } else {
+                  alert('You can only add up to 5 choices.');
+              }
+          });
+      </script>
+{% endblock %}

@@ -1,10 +1,10 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.db.models import F
 from django.urls import reverse
 from django.views import generic
 
-from polls.models import Question, Choice
+from polls.models import Question, Choice, QuestionForm
 
 
 class IndexView(generic.ListView):
@@ -40,3 +40,19 @@ def vote(request, question_id):
         selected_choice.votes = F("votes") + 1
         selected_choice.save()
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+
+
+def create(request):
+    if request.method == "POST":
+        question_text = request.POST.get('questionText')
+        choices = request.POST.getlist('choices[]')
+
+        if question_text and choices:
+            question = Question(question_text=question_text)
+            question.save()
+            for choice in choices:
+                question.choice_set.create(choice_text=choice)
+            return HttpResponseRedirect(reverse("polls:detail", args=(question.id,)))
+
+    # form = QuestionForm()
+    return render(request, "polls/create.html")

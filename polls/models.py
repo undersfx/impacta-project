@@ -1,5 +1,6 @@
 import datetime
 
+from django.forms import ModelForm
 from django.utils import timezone
 from django.db import models
 from django.contrib import admin
@@ -15,6 +16,12 @@ class Question(models.Model):
     @admin.display(boolean=True, ordering="pub_date", description="Published recently?")
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+
+class QuestionForm(ModelForm):
+    class Meta:
+        model = Question
+        fields = ["question_text"]
 
 
 class Choice(models.Model):
